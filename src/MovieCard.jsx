@@ -2,18 +2,18 @@ import React from 'react';
 
 const MovieCard = ({ movie: { imdbID, Year, Poster, Title, Type } }) => {
   return (
-    <div className="movie" key={imdbID}>
+    <div className="movie" key={imdbID || Math.random()}>
       <div>
-        <p>{Year}</p>
+        <p>{Year || 6969}</p>
       </div>
 
       <div>
-        <img src={Poster !== "N/A" ? Poster : "https://via.placeholder.com/400"} alt={Title} />
+        <img src={Poster || "https://via.placeholder.com/400"} alt={Title || "idk man"} />
       </div>
 
       <div>
-        <span>{Type}</span>
-        <h3>{Title}</h3>
+        <span>{Type || "IDK MAN"}</span>
+        <h3>{Title || "NO IDEA"}</h3>
       </div>
     </div>
   );

@@ -1,29 +1,32 @@
 import React, { useState, useEffect } from "react";
-
 import MovieCard from "./MovieCard";
 import "./App.css";
 
-const API_URL = "http://www.omdbapi.com?apikey=b6003d8a";
+const API_URL = `http://www.omdbapi.com?apikey=${process.env.REACT_APP_API_KEY}`;
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [movies, setMovies] = useState([]);
 
-  useEffect(() => {
-    searchMovies("Batman");
-  }, []);
 
   const searchMovies = async (title) => {
-    const response = await fetch(`${API_URL}&s=${title}`);
-    const data = await response.json();
-
-    setMovies(data.Search);
+    try{
+      const response = await fetch(`${API_URL}&s=${title}`);
+      const data = await response.json();
+      setMovies(data.Search);
+    }catch(error){
+      console.log(error);
+      alert("Something went wrong");
+    }
   };
+  useEffect(() => {
+    searchMovies("Batman");
+
+  }, []);
 
   return (
     <div className="app">
       <h1>MovieLand</h1>
-
       <div className="search">
         <input
           value={searchTerm}
@@ -31,15 +34,15 @@ const App = () => {
           placeholder="Search for movies"
         />
         <img
-          src={"SearchIconhttps://raw.githubusercontent.com/gist/adrianhajdin/997a8cdf94234e889fa47be89a4759f1/raw/f13e5a9a0d1e299696aa4a0fe3a0026fa2a387f7/search.svg"}
+          src={"https://raw.githubusercontent.com/gist/adrianhajdin/997a8cdf94234e889fa47be89a4759f1/raw/f13e5a9a0d1e299696aa4a0fe3a0026fa2a387f7/search.svg"}
           alt="search"
           onClick={() => searchMovies(searchTerm)}
         />
       </div>
 
-      {movies?.length > 0 ? (
+      {movies &&movies?.length > 0 ? (
         <div className="container">
-          {movies.map((movie) => (
+          {movies && movies.map((movie) => (
             <MovieCard movie={movie} />
           ))}
         </div>
